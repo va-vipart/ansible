@@ -1,0 +1,25 @@
+- name: Save file from router
+  hosts: Mikrotik-RTs
+  gather_facts: false
+  vars:
+    backup_name: "{{ inventory_hostname }}_{{ lookup('pipe', 'date +%d-%m-%Y_%H:%M') }}"
+  tasks:
+    - name: backup-file create
+      routeros_command:
+        commands: /system backup save name={{ backup_name }}
+    
+#    - name: Create backups directory
+#      file:
+#        path: "backups"
+#        state: directory
+    
+#    - name: Create router's directory
+#      file:
+#        path: "backups/{{ inventory_hostname }}"
+#        state: directory
+#      become: true
+#      
+#    - name: Download backup file
+#      fetch:
+#        src: "{{ backup_name }}.backup"
+#        dest: "/etc/ansible/yaml/backups/{{ inventory_hostname }}/{{ backup_name }}.backup"
